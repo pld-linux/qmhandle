@@ -1,14 +1,16 @@
 Summary:	Qmail message queue tool
 Name:		qmhandle
 Version:	1.2.0
-Release:	1
+Release:	2
 Epoch:		0
 License:	GPL
 Group:		Applications/Mail
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Patch0:		%{name}-daemontools.patch
 # Source0-md5:	0d2b5f1756d7641a8a8054e29e1b9747
 URL:		http://qmhandle.sf.net/
 Requires:	qmail
+Requires:	daemontools
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -28,6 +30,7 @@ With this program you can:
 
 %prep
 %setup -q -c
+%patch0 -p0
 
 %build
 
