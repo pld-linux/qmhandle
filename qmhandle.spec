@@ -29,7 +29,7 @@ With this program you can:
  * Remove one or more messages from the queue.
  * Force qmail to send queued messages immediately.
 
-%description =l pl
+%description -l pl
 qmHandle jest narzêdziem s³u¿±cym do zarz±dzania kolejk± poczty
 qmaila. Zosta³ napisany w Perlu (wiêc jest ca³kowicie konfigurowalny)
 i jest znacznie potê¿niejszy ni¿ qmail-qread czy qmail-qstat. Kluczowe
