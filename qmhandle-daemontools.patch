@@ -1,0 +1,19 @@
+--- qmHandle.~1~	2003-12-10 16:01:17.000000000 +0200
++++ qmHandle	2004-11-27 02:28:13.000000000 +0200
+@@ -25,12 +25,12 @@
+ # ### Be sure to uncomment only ONE of each variable declarations ###
+ 
+ # For instance, this is if you have DJB's daemontools
+-#my ($stopqmail) = '/usr/local/bin/svc -d /service/qmail-send';
+-#my ($startqmail) = '/usr/local/bin/svc -u /service/qmail-send';
++my ($stopqmail) = '/usr/sbin/svc -d /service/qmail-send';
++my ($startqmail) = '/usr/sbin/svc -u /service/qmail-send';
+ 
+ # While this is if you have a Debian GNU/Linux with its qmail package
+-my ($stopqmail) = '/etc/init.d/qmail stop';
+-my ($startqmail) = '/etc/init.d/qmail start';
++#my ($stopqmail) = '/etc/init.d/qmail stop';
++#my ($startqmail) = '/etc/init.d/qmail start';
+ 
+ # If you don't have scripts, leave $stopqmail blank (the process will
+ # be hunted and killed by qmHandle):
