@@ -1,5 +1,5 @@
 Summary:	qmail message queue tool
-Summary(pl)	Narzêdzie do obs³ugi kolejki poczty qmaila
+Summary(pl):	Narzêdzie do obs³ugi kolejki poczty qmaila
 Name:		qmhandle
 Version:	1.2.0
 Release:	2
