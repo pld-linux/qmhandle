@@ -2,13 +2,14 @@ Summary:	qmail message queue tool
 Summary(pl):	Narzêdzie do obs³ugi kolejki poczty qmaila
 Name:		qmhandle
 Version:	1.2.0
-Release:	2
+Release:	3
 Epoch:		0
 License:	GPL
 Group:		Applications/Mail
 Source0:	http://dl.sourceforge.net/qmhandle/%{name}-%{version}.tar.gz
-Patch0:		%{name}-daemontools.patch
 # Source0-md5:	0d2b5f1756d7641a8a8054e29e1b9747
+Patch0:		%{name}-daemontools.patch
+Patch1:		%{name}-no-diagnostics.patch
 URL:		http://qmhandle.sf.net/
 Requires:	daemontools
 Requires:	qmail
@@ -50,6 +51,7 @@ Program ten umo¿liwia:
 %prep
 %setup -q -c
 %patch0 -p0
+%patch1 -p0
 
 %install
 rm -rf $RPM_BUILD_ROOT
