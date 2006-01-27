@@ -13,7 +13,7 @@ Patch1:		%{name}-no-diagnostics.patch
 URL:		http://qmhandle.sourceforge.net/
 BuildRequires:	rpm-perlprov >= 4.1-13
 Requires:	daemontools
-Requires:	qmail
+Requires:	qmail >= 1.03-58.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
