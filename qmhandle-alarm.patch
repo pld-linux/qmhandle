@@ -1,0 +1,184 @@
+--- qmhandle-1.2.0-alarm/qmHandle	2006-04-10 11:51:09.679994766 +0300
++++ qmhandle-1.2.0.alarm/qmHandle	2006-04-10 12:09:42.364864881 +0300
+@@ -21,26 +21,9 @@
+ #####
+ # If your system has got automated command to start/stop qmail, then
+ # enter them here.
+-# ### Be sure to uncomment only ONE of each variable declarations ###
+ 
+ # For instance, this is if you have DJB's daemontools
+-#my ($stopqmail) = '/usr/local/bin/svc -d /service/qmail-send';
+-#my ($startqmail) = '/usr/local/bin/svc -u /service/qmail-send';
+-
+-# While this is if you have a Debian GNU/Linux with its qmail package
+-my ($stopqmail) = '/etc/init.d/qmail stop';
+-my ($startqmail) = '/etc/init.d/qmail start';
+-
+-# If you don't have scripts, leave $stopqmail blank (the process will
+-# be hunted and killed by qmHandle):
+-#my ($stopqmail) = '';
+-
+-# However, you still need to launch qmail in a way or the other. So,
+-# if you have a standard qmail 1.03 use this:
+-#my ($startqmail) = "csh -cf '/var/qmail/rc &'";
+-
+-# While, if you have a standard qmail < 1.03 you should use this:
+-#my ($startqmail) = '/var/qmail/bin/qmail-start ./Mailbox splogger qmail &';
++my ($alarmqmail) = '/usr/sbin/svc -a /service/qmail-send';
+ 
+ #####
+ # Enter here the system command which returns qmail PID. The following
+@@ -105,11 +88,6 @@
+ 
+ }
+ 
+-# In case of deletion actions, stop qmail
+-if ($dactions) {
+-    stopQmail() or die "Could not stop qmail: $!";
+-}
+-
+ # Execute actions    
+ foreach my $action(@actions) {
+     eval "$action";
+@@ -117,63 +95,20 @@
+ 
+ # In case of deletion actions, restart qmail
+ if ($dactions) {
+-    startQmail() or die "Could not stop qmail: $!";
++    alarmQmail() or die "Could not alarm qmail: $!";
+ }
+ 
+ # ##### SERVICE FUNCTIONS #####
+ 
+-# Stop qmail
+-sub stopQmail {
+-    my ($qmpid) = qmailPid();
+-
+-    # If qmail is running, we stop it
+-    if ($qmpid != 0) {
+-
+-	# If there is a system script available, we use it
+-	if ($stopqmail ne '') {
+-
+-	    print "Calling system script to terminate qmail...\n";
+-	    if (system($stopqmail) > 0) {
+-		return 0;
+-	    }
++# alarm qmail
++sub alarmQmail {
+ 
+-	# Otherwise, we're killers!
+-	} else {
+-	    print "Terminating qmail (pid $qmpid)... this might take a while if qmail is working.\n";
+-	    kill 'TERM', $qmpid;
+-	    
+-	    while (qmailPid()){
+-		sleep 1;
+-	    }
+-	}
++    if ($alarmqmail) {
++	system($alarmqmail);
+ 
+-    # If it isn't, we don't. We also set a flag which assures we don't
+-    # restart it later either (the user might not want this)
+     } else {
+-	print "Qmail isn't running... no need to stop it.\n";
+-	$norestart = 1;
+-    }
+-
+-    return 1;
+-}
+-
+-# Start qmail
+-sub startQmail {
+-    my ($qmpid) = qmailPid();
+-
+-    # If qmail is running, why restart it?
+-    if ($qmpid != 0) {
+-	print "Qmail is already running again, so it won't be restarted.\n";
+-
+-    # If it wasn't running before qmHandle was launched, it's better leave is this way
+-    } elsif ($norestart == 1) {
+-	print "Qmail wasn't running when qmHandle was started, so it won't be restarted.\n";
+-
+-    # In any other case, we restart it
+-    } else {
+-	print "Restarting qmail... ";
+-	system($startqmail);
+-	print "done (hopefully).\n";
++	my ($qmpid) = qmailPid();
++	kill 'ALRM', $qmpid;
+     }
+ 
+     return 1;
+@@ -202,18 +137,7 @@
+ # Tries to send all queued messages now 
+ # This is achieved by sending an ALRM signal to qmail-send
+ sub SendMsgs {
+-    my ($qmpid) = qmailPid();
+-
+-    # If qmail is running, we force sending of messages
+-    if ($qmpid != 0) {
+-
+-	kill 'ALRM', $qmpid;
+-
+-    } else {
+-
+-	print "Qmail isn't running, can't send messages!\n";
+-
+-    }
++    alarmQmail;
+ }
+ 
+ # Display message list
+@@ -378,12 +302,12 @@
+ 	    if ($msg =~ /\/$rmsg$/) {
+ 		$ok = 1;
+ 		print "Deleting message $msg...\n";
+-		unlink "${queue}mess/$msg";
+-		unlink "${queue}info/$msg";
++		utime 0, 0, "${queue}mess/$msg";
++		utime 0, 0, "${queue}info/$msg";
+ 		if ($type{$msg} eq 'R') {
+-		    unlink "${queue}remote/$msg";
++		    utime 0, 0, "${queue}remote/$msg";
+ 		} else {
+-		    unlink "${queue}local/$msg";
++		    utime 0, 0, "${queue}local/$msg";
+ 		}
+ 		last;
+ 	    }
+@@ -412,12 +336,12 @@
+ 	if ($msgsub and $msgsub =~ /$subject/) {
+ 	    $ok = 1;
+ 	    print "Deleting message: $msg\n";
+-	    unlink "${queue}mess/$msg";
+-	    unlink "${queue}info/$msg";
++	    utime 0, 0, "${queue}mess/$msg";
++	    utime 0, 0, "${queue}info/$msg";
+ 	    if ($type{$msg} eq 'R') {
+-		unlink "${queue}remote/$msg";
++		utime 0, 0, "${queue}remote/$msg";
+ 	    } else {
+-		unlink "${queue}local/$msg";
++		utime 0, 0, "${queue}local/$msg";
+ 	    }
+ 	    $delnum++;
+ 	}
+@@ -443,12 +367,12 @@
+     foreach my $msg (@msglist) {
+ 	$ok = 1;
+ 	print "Deleting message: $msg\n";
+-	unlink "${queue}mess/$msg";
+-	unlink "${queue}info/$msg";
++	utime 0, 0, "${queue}mess/$msg";
++	utime 0, 0, "${queue}info/$msg";
+ 	if ($type{$msg} eq 'R') {
+-	    unlink "${queue}remote/$msg";
++	    utime 0, 0, "${queue}remote/$msg";
+ 	} else {
+-	    unlink "${queue}local/$msg";
++	    utime 0, 0, "${queue}local/$msg";
+ 	}
+     }
+ 
