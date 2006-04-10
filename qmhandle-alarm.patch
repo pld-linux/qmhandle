@@ -1,5 +1,6 @@
---- qmhandle-1.2.0-alarm/qmHandle	2006-04-10 11:51:09.679994766 +0300
-+++ qmhandle-1.2.0.alarm/qmHandle	2006-04-10 12:09:42.364864881 +0300
+diff -u qmhandle-1.2.0.alarm/qmHandle qmhandle-1.2.0/qmHandle
+--- qmhandle-1.2.0.alarm/qmHandle	2006-04-10 12:09:42.364864881 +0300
++++ qmhandle-1.2.0/qmHandle	2006-04-10 12:46:04.613543202 +0300
 @@ -21,26 +21,9 @@
  #####
  # If your system has got automated command to start/stop qmail, then
@@ -64,9 +65,7 @@
 -	    if (system($stopqmail) > 0) {
 -		return 0;
 -	    }
-+# alarm qmail
-+sub alarmQmail {
- 
+-
 -	# Otherwise, we're killers!
 -	} else {
 -	    print "Terminating qmail (pid $qmpid)... this might take a while if qmail is working.\n";
@@ -76,16 +75,16 @@
 -		sleep 1;
 -	    }
 -	}
-+    if ($alarmqmail) {
-+	system($alarmqmail);
- 
+-
 -    # If it isn't, we don't. We also set a flag which assures we don't
 -    # restart it later either (the user might not want this)
-     } else {
+-    } else {
 -	print "Qmail isn't running... no need to stop it.\n";
 -	$norestart = 1;
 -    }
--
++# alarm qmail
++sub alarmQmail {
+ 
 -    return 1;
 -}
 -
@@ -100,9 +99,11 @@
 -    # If it wasn't running before qmHandle was launched, it's better leave is this way
 -    } elsif ($norestart == 1) {
 -	print "Qmail wasn't running when qmHandle was started, so it won't be restarted.\n";
--
++    if ($alarmqmail) {
++	system($alarmqmail);
+ 
 -    # In any other case, we restart it
--    } else {
+     } else {
 -	print "Restarting qmail... ";
 -	system($startqmail);
 -	print "done (hopefully).\n";
@@ -131,54 +132,48 @@
  }
  
  # Display message list
-@@ -378,12 +302,12 @@
+@@ -353,13 +277,7 @@
  	    if ($msg =~ /\/$rmsg$/) {
  		$ok = 1;
  		print "Deleting message $msg...\n";
 -		unlink "${queue}mess/$msg";
 -		unlink "${queue}info/$msg";
-+		utime 0, 0, "${queue}mess/$msg";
-+		utime 0, 0, "${queue}info/$msg";
- 		if ($type{$msg} eq 'R') {
+-		if ($type{$msg} eq 'R') {
 -		    unlink "${queue}remote/$msg";
-+		    utime 0, 0, "${queue}remote/$msg";
- 		} else {
+-		} else {
 -		    unlink "${queue}local/$msg";
-+		    utime 0, 0, "${queue}local/$msg";
- 		}
+-		}
++		utime 0, 0, "${queue}info/$msg";
  		last;
  	    }
-@@ -412,12 +336,12 @@
+ 	}
+@@ -387,13 +305,7 @@
  	if ($msgsub and $msgsub =~ /$subject/) {
  	    $ok = 1;
  	    print "Deleting message: $msg\n";
 -	    unlink "${queue}mess/$msg";
 -	    unlink "${queue}info/$msg";
-+	    utime 0, 0, "${queue}mess/$msg";
-+	    utime 0, 0, "${queue}info/$msg";
- 	    if ($type{$msg} eq 'R') {
+-	    if ($type{$msg} eq 'R') {
 -		unlink "${queue}remote/$msg";
-+		utime 0, 0, "${queue}remote/$msg";
- 	    } else {
+-	    } else {
 -		unlink "${queue}local/$msg";
-+		utime 0, 0, "${queue}local/$msg";
- 	    }
+-	    }
++	    utime 0, 0, "${queue}info/$msg";
  	    $delnum++;
  	}
-@@ -443,12 +367,12 @@
+ 
+@@ -418,13 +330,7 @@
      foreach my $msg (@msglist) {
  	$ok = 1;
  	print "Deleting message: $msg\n";
 -	unlink "${queue}mess/$msg";
 -	unlink "${queue}info/$msg";
-+	utime 0, 0, "${queue}mess/$msg";
-+	utime 0, 0, "${queue}info/$msg";
- 	if ($type{$msg} eq 'R') {
+-	if ($type{$msg} eq 'R') {
 -	    unlink "${queue}remote/$msg";
-+	    utime 0, 0, "${queue}remote/$msg";
- 	} else {
+-	} else {
 -	    unlink "${queue}local/$msg";
-+	    utime 0, 0, "${queue}local/$msg";
- 	}
+-	}
++	utime 0, 0, "${queue}info/$msg";
      }
  
+     # If no messages are found, print a notice
