@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	qmail message queue tool
-Summary(pl):	Narzêdzie do obs³ugi kolejki poczty qmaila
+Summary(pl.UTF-8):   NarzÄ™dzie do obsÅ‚ugi kolejki poczty qmaila
 Name:		qmhandle
 Version:	1.2.0
 Release:	5.1
@@ -32,22 +32,22 @@ With this program you can:
  - Remove one or more messages from the queue.
  - Force qmail to send queued messages immediately.
 
-%description -l pl
-qmHandle jest narzêdziem s³u¿±cym do zarz±dzania kolejk± poczty
-qmaila. Zosta³ napisany w Perlu (wiêc jest ca³kowicie konfigurowalny)
-i jest znacznie potê¿niejszy ni¿ qmail-qread czy qmail-qstat. Kluczowe
-cechy to kolorowe wyj¶cie oraz mo¿liwo¶æ przegl±dania i kasowania
-wiadomo¶ci w kolejce.
+%description -l pl.UTF-8
+qmHandle jest narzÄ™dziem sÅ‚uÅ¼Ä…cym do zarzÄ…dzania kolejkÄ… poczty
+qmaila. ZostaÅ‚ napisany w Perlu (wiÄ™c jest caÅ‚kowicie konfigurowalny)
+i jest znacznie potÄ™Å¼niejszy niÅ¼ qmail-qread czy qmail-qstat. Kluczowe
+cechy to kolorowe wyjÅ›cie oraz moÅ¼liwoÅ›Ä‡ przeglÄ…dania i kasowania
+wiadomoÅ›ci w kolejce.
 
-Program ten umo¿liwia:
- - Odczyt kolejki qmaila, podobnie jak za pomoc± programu qmail-qread.
-   Jednak¿e program ten ma nowocze¶niejsze wyj¶cie ni¿ qmail-qread:
-   kolorowe i zawieraj±ce tematy listów.
+Program ten umoÅ¼liwia:
+ - Odczyt kolejki qmaila, podobnie jak za pomocÄ… programu qmail-qread.
+   JednakÅ¼e program ten ma nowoczeÅ›niejsze wyjÅ›cie niÅ¼ qmail-qread:
+   kolorowe i zawierajÄ…ce tematy listÃ³w.
  - Drukowanie statystyk kolejki, podobnie jak w qmail-qstat, ale w
    kolorach.
- - Obejrzenie wiadomo¶ci w kolejce.
- - Usuniêcie jednej lub wiêcej wiadomo¶ci z kolejki.
- - Wymuszenie na qmailu natychmiastowego wys³ania wiadomo¶ci z kolejki.
+ - Obejrzenie wiadomoÅ›ci w kolejce.
+ - UsuniÄ™cie jednej lub wiÄ™cej wiadomoÅ›ci z kolejki.
+ - Wymuszenie na qmailu natychmiastowego wysÅ‚ania wiadomoÅ›ci z kolejki.
 
 %prep
 %setup -q -c
