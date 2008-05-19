@@ -1,0 +1,11 @@
+--- qmhandle-1.2.0/qmHandle~	2008-05-19 23:51:32.000000000 +0300
++++ qmhandle-1.2.0/qmHandle	2008-05-19 23:51:46.494653561 +0300
+@@ -16,7 +16,7 @@
+ 
+ #####
+ # Set this to your qmail queue directory (be sure to include the final slash!)
+-my ($queue) = '/var/qmail/queue/';
++my ($queue) = '/var/spool/qmail/';
+ 
+ #####
+ # If your system has got automated command to start/stop qmail, then
