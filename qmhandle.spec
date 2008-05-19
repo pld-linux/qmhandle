@@ -3,17 +3,18 @@ Summary:	qmail message queue tool
 Summary(pl.UTF-8):	Narzędzie do obsługi kolejki poczty qmaila
 Name:		qmhandle
 Version:	1.2.0
-Release:	5.1
+Release:	6
 License:	GPL
 Group:		Applications/Mail
 Source0:	http://dl.sourceforge.net/qmhandle/%{name}-%{version}.tar.gz
 # Source0-md5:	0d2b5f1756d7641a8a8054e29e1b9747
 Patch0:		%{name}-no-diagnostics.patch
 Patch1:		%{name}-alarm.patch
+Patch2:		%{name}-queuedir.patch
 URL:		http://qmhandle.sourceforge.net/
 BuildRequires:	rpm-perlprov >= 4.1-13
 Requires:	daemontools
-Requires:	qmail >= 1.03-58.4
+Requires:	qmail >= 1.03-63.2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -53,11 +54,11 @@ Program ten umożliwia:
 %setup -q -c
 %patch0 -p0
 %patch1 -p1
+%patch2 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sbindir}
-
 install qmHandle $RPM_BUILD_ROOT%{_sbindir}
 
 %clean
