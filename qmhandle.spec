@@ -51,9 +51,9 @@ Program ten umożliwia:
 
 %prep
 %setup -q -c
-%patch0 -p0
-%patch1 -p1
-%patch2 -p1
+%patch -P0 -p0
+%patch -P1 -p1
+%patch -P2 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
